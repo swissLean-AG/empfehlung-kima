@@ -2,7 +2,7 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-O9AgffNVrfFjcGYqk9P+5Q4lixODjW0FX30VG4nd9j8=' https://challenges.cloudflare.com; style-src 'sha256-S4x8Je/kzCm9nKzDCe5IYserQshH5Byag1bvGN+rFZA='; font-src 'self'; img-src 'self' data:; connect-src https://workflow.swisslean-automation.ch https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-pBj7ZKl723pX3FtnDq37AurMe6v8GkJUQLUzIVOYkt8=' https://challenges.cloudflare.com; style-src 'sha256-S4x8Je/kzCm9nKzDCe5IYserQshH5Byag1bvGN+rFZA='; font-src 'self'; img-src 'self' data:; connect-src https://empfehlung-vorposten.stefan-bischof.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -303,7 +303,7 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
 <script>
 'use strict';
 // @@daten-start
-const WEBHOOK_URL = 'https://workflow.swisslean-automation.ch/webhook/empfehlung-kima';
+const VORPOSTEN_URL = 'https://empfehlung-vorposten.stefan-bischof.workers.dev/';
 const TURNSTILE_SITEKEY = '0x4AAAAAAF4n0veE0Eul_PtU';
 const DATENSCHUTZ_URL = 'https://swiss-lean.ch/datenschutz';
 const KIMA_URL = 'https://swiss-lean.ch/ki-manager-ausbildung';
@@ -341,7 +341,7 @@ function imRahmen() {
   }
 }
 
-// Der Wert aus der Adresse wird nie angezeigt: nur ein Treffer in der festen Liste zaehlt.
+// Der Wert aus der Adresse wird nie angezeigt: nur ein Treffer in der festen Liste zählt.
 function gueltigerCode() {
   const werte = new URLSearchParams(window.location.search).getAll('ref');
   if (werte.length !== 1 || !/^[A-Za-z]+$/.test(werte[0])) return null;
@@ -426,7 +426,7 @@ function start() {
     $('notiz-zaehler').textContent = notiz.value.length + " von 1'000 Zeichen";
   });
 
-  // Turnstile: Skript erst laden, wenn der Link gueltig ist. Widget erst zeichnen, wenn das Formular sichtbar ist.
+  // Turnstile: Skript erst laden, wenn der Link gültig ist. Widget erst zeichnen, wenn das Formular sichtbar ist.
   let widgetId = null;
   let token = '';
   let apiGeladen = false;
@@ -545,7 +545,7 @@ function start() {
     const uhr = setTimeout(() => abbruch.abort(), ZEITLIMIT_MS);
     let erfolg = false;
     try {
-      const antwort = await fetch(WEBHOOK_URL, {
+      const antwort = await fetch(VORPOSTEN_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nutzlast),
@@ -576,7 +576,7 @@ function start() {
       window.scrollTo(0, 0);
       return;
     }
-    // Token sind einmalig: fuer einen neuen Versuch ein frisches holen.
+    // Token sind einmalig: für einen neuen Versuch ein frisches holen.
     token = '';
     if (widgetId !== null && window.turnstile) window.turnstile.reset(widgetId);
     zeigeFehler(sendeFehler);
