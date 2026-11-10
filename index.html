@@ -2,11 +2,11 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-8w4mLzsNUb+guKizJ/KDQe+vvzhicF06sWU97zgNiO4=' https://challenges.cloudflare.com; style-src 'sha256-AXgyrCQW7EZZ0D+T9rSQNODbSxV+VNKSTUbL2L7VOjU='; font-src 'self'; img-src 'self'; connect-src https://empfehlung-vorposten.stefan-bischof.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-1G6md3F3oy87UMBs9xXCAJj4bANaby6Z2V/fhubZvMc=' https://challenges.cloudflare.com; style-src 'sha256-zvuoRnkpRodLZnqmybOQz/EepCt7JZfwuuyrs9SSjm8='; font-src 'self'; img-src 'self'; connect-src https://empfehlung-vorposten.stefan-bischof.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Empfehlung KI-Manager-Ausbildung | swissLean AG</title>
+<title>KI-Manager-Ausbildung | swissLean AG</title>
 <link rel="icon" type="image/png" sizes="32x32" href="bild/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="bild/apple-touch-icon.png">
 <style>
@@ -48,7 +48,7 @@ a:hover { color: var(--sl-primary); }
 
 .wrap { max-width: 820px; margin: 0 auto; padding: 0 16px 56px; }
 
-/* Signalfeld (A40): fest hinter dem Inhalt, nimmt keine Klicks an. Die Karten bleiben deckend weiss. */
+/* Hintergrund (A40, seit A43 Leiterbahnen): fest hinter dem Inhalt, nimmt keine Klicks an. Die Karten bleiben deckend weiss. */
 #signalfeld { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block; }
 
 .kopf { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0 8px; }
@@ -196,20 +196,20 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
   <main>
     <section class="hero" aria-labelledby="titel">
       <p class="empfohlen" id="empfohlen-von" hidden></p>
-      <h1 id="titel">Empfehlung für die <span class="nb">KI-Manager-</span>Ausbildung</h1>
+      <h1 id="titel">Anmeldung zur <span class="nb">KI-Manager-</span>Ausbildung</h1>
       <p class="lead" id="lead">Die KI-Manager-Ausbildung von swissLean AG richtet sich an Fach- und Führungskräfte in Schweizer KMU, die KI im Betrieb verantwortlich einführen und einsetzen wollen. Hier trägst du einen Kontakt ein oder meldest dich selbst an. <a id="link-kima" href="https://swiss-lean.ch/ki-manager-ausbildung" target="_blank" rel="noopener noreferrer">Mehr zur Ausbildung</a></p>
     </section>
 
     <section id="ungueltig" class="meldung" hidden aria-labelledby="ungueltig-titel">
       <h2 id="ungueltig-titel">Dieser Link ist nicht gültig</h2>
-      <p>Bitte öffne den persönlichen Empfehlungslink, den du erhalten hast. Ohne gültigen Link nehmen wir hier keine Angaben entgegen.</p>
+      <p>Bitte öffne den persönlichen Link, den du erhalten hast. Ohne gültigen Link nehmen wir hier keine Angaben entgegen.</p>
       <p>Wenn du Fragen hast oder dir der Link fehlt, schreibe uns an <a class="kontakt-mail"></a>. Wir helfen dir gerne weiter.</p>
     </section>
 
     <div id="erklaerung" hidden>
       <h2 class="schritte-titel">So funktioniert es</h2>
       <ol class="schritte">
-        <li class="schritt"><h3>Angaben eintragen</h3><p>Du wählst, ob du jemanden empfiehlst oder dich selbst anmeldest, und füllst das Formular aus. Das dauert etwa zwei Minuten.</p></li>
+        <li class="schritt"><h3>Angaben eintragen</h3><p>Du wählst, ob du jemanden einträgst oder dich selbst anmeldest, und füllst das Formular aus. Das dauert etwa zwei Minuten.</p></li>
         <li class="schritt"><h3>swissLean meldet sich</h3><p>Wir nehmen persönlich Kontakt auf und klären Start, Ablauf und Details.</p></li>
         <li class="schritt"><h3>Infogespräch oder Angebot</h3><p>Je nach Wunsch laden wir zu einem unverbindlichen Infogespräch ein oder erstellen direkt ein Angebot.</p></li>
       </ol>
@@ -221,8 +221,8 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
       <fieldset class="weiche">
         <legend>Was möchtest du tun?</legend>
         <div class="optionen zwei">
-          <div class="option"><input type="radio" name="weg" id="weg-E" value="E"><label for="weg-E"><strong>Ich empfehle jemanden</strong><span>Du trägst die Kontaktdaten der Person ein.</span></label></div>
-          <div class="option"><input type="radio" name="weg" id="weg-S" value="S"><label for="weg-S"><strong>Ich wurde empfohlen und möchte mich anmelden</strong><span>Du trägst deine eigenen Angaben ein.</span></label></div>
+          <div class="option"><input type="radio" name="weg" id="weg-E" value="E"><label for="weg-E"><strong>Jemanden eintragen</strong><span>Du trägst die Kontaktdaten einer Person ein.</span></label></div>
+          <div class="option"><input type="radio" name="weg" id="weg-S" value="S"><label for="weg-S"><strong>Selbst anmelden</strong><span>Du trägst deine eigenen Angaben ein.</span></label></div>
         </div>
       </fieldset>
 
@@ -271,7 +271,7 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
         </fieldset>
 
         <fieldset id="fs-kontakt">
-          <legend><span class="nr">3</span><span id="legende-kontakt">Empfohlener Kontakt</span></legend>
+          <legend><span class="nr">3</span><span id="legende-kontakt">Kontakt</span></legend>
           <div class="felder">
             <div class="feld"><label for="k_name">Vor- und Nachname *</label><input type="text" id="k_name" name="k_name" maxlength="200" autocomplete="off"></div>
             <div class="feld"><label for="k_firma">Firma *</label><input type="text" id="k_firma" name="k_firma" maxlength="200" autocomplete="off"></div>
@@ -280,13 +280,13 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
             <div class="feld"><label for="k_ort">Ort der Firma *</label><input type="text" id="k_ort" name="k_ort" maxlength="200" autocomplete="off"></div>
             <div class="feld voll"><label for="notiz">Was sollten wir wissen?</label><textarea id="notiz" name="notiz" maxlength="1000" placeholder="Zum Beispiel Branche, Anzahl Mitarbeitende, Interesse"></textarea><span class="hinweis" id="notiz-zaehler">0 von 1'000 Zeichen</span></div>
           </div>
-          <p class="vorteil" id="rabatt-hinweis" hidden><strong>Vorteil für den Kontakt:</strong> Wer über diesen Link kommt, erhält CHF 200 Rabatt auf das Angebot.</p>
+          <p class="vorteil" id="rabatt-hinweis" hidden></p>
         </fieldset>
 
         <div class="fangfeld" aria-hidden="true"><label for="website">Website</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"></div>
 
         <div class="einverstaendnis" id="block-einv-E" hidden>
-          <div class="check"><input type="checkbox" id="einv-E"><label for="einv-E">Der empfohlene Kontakt ist einverstanden, dass swissLean AG sich bei ihm meldet. *</label></div>
+          <div class="check"><input type="checkbox" id="einv-E"><label for="einv-E">Die eingetragene Person ist einverstanden, dass swissLean AG sich bei ihr meldet. *</label></div>
           <p class="hinweis">Wie wir mit Daten umgehen, steht in der <a href="https://swiss-lean.ch/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>.</p>
         </div>
         <div class="einverstaendnis" id="block-einv-S" hidden>
@@ -511,9 +511,7 @@ if (imRahmen()) {
 }
 
 function start() {
-  const von = $('empfohlen-von');
-  von.textContent = 'Empfohlen von ' + EMPFEHLUNGSGEBER_ANZEIGE[code];
-  von.hidden = false;
+  // A42: Kein Hinweis auf die Herkunft des Links; der Code geht nur in die Nutzlast. #empfohlen-von bleibt leer und verborgen.
   $('erklaerung').hidden = false;
   formular.hidden = false;
 
@@ -547,8 +545,8 @@ function start() {
     $('rest').hidden = weg === '';
     $('block-einv-E').hidden = weg !== 'E';
     $('block-einv-S').hidden = weg !== 'S';
-    $('rabatt-hinweis').hidden = weg !== 'E';
-    $('legende-kontakt').textContent = weg === 'S' ? 'Deine Angaben' : 'Empfohlener Kontakt';
+    // A42: #rabatt-hinweis bleibt verborgen (den Rabatt wählt künftig der Eintragende, ein fester Betrag wäre falsch).
+    $('legende-kontakt').textContent = weg === 'S' ? 'Deine Angaben' : 'Kontakt';
     const kurs = gewaehlt('anliegen') === 'kurs';
     $('block-buchungsart').hidden = !kurs;
     const art = gewaehlt('buchungsart');
@@ -655,7 +653,7 @@ function start() {
     e.preventDefault();
     if (laeuft) return;
     const weg = wegWert();
-    if (weg === '') { zeigeFehler('Bitte wähle zuerst, ob du jemanden empfiehlst oder dich selbst anmeldest.'); return; }
+    if (weg === '') { zeigeFehler('Bitte wähle zuerst, ob du jemanden einträgst oder dich selbst anmeldest.'); return; }
     const p = pruefe();
     if (p.fehlt.length) {
       zeigeFehler('Bitte noch ergänzen: ' + p.fehlt.join(', ') + '.');
@@ -714,7 +712,7 @@ function start() {
     if (erfolg) {
       $('danke-text').textContent = weg === 'S'
         ? 'swissLean AG meldet sich persönlich bei dir. Du musst nichts weiter tun.'
-        : 'swissLean AG meldet sich persönlich bei der empfohlenen Person. Du musst nichts weiter tun.';
+        : 'swissLean AG meldet sich persönlich bei der eingetragenen Person. Du musst nichts weiter tun.';
       formular.hidden = true;
       $('erklaerung').hidden = true;
       $('lead').hidden = true;
@@ -733,10 +731,11 @@ function start() {
   });
 }
 
-// Signalfeld (A40): Punktraster hinter dem Inhalt, über das langsam zwei Wellen laufen; wo beide zusammen über 0.82
-// steigen, leuchten Punkte in RotOrange. Höchstens 30 Bilder je Sekunde, Pause im verborgenen Tab, bei "Bewegung
-// reduzieren" genau ein Standbild. Im Inhaltsbereich (.wrap) deckt es nur zu einem Viertel, damit der Kontrast der
-// Texte bleibt. Gleiche Deckung und Grösse werden zu einem Pfad gebündelt (wenige Füllvorgänge je Bild).
+// Hintergrund (A40, seit A43 "Leiterbahnen"): feine Leiterbahnen wie auf einem Chip im Raster von 22 px, über die je
+// ein Lichtimpuls mit kurzem Schweif läuft (etwa jeder dritte in RotOrange). Höchstens 30 Bilder je Sekunde, Pause im
+// verborgenen Tab, bei "Bewegung reduzieren" genau ein Standbild mit stehenden Impulsen. Im Inhaltsbereich (.wrap)
+// bleibt die Deckung unter einem Fünftel, damit der Kontrast der Texte bleibt. Gleiche Farbe und Deckung werden zu
+// einem Pfad gebündelt (wenige Zeichenvorgänge je Bild).
 // Selbstbremse: Die Zeichendauer wird gleitend gemessen. Liegt sie im Mittel über 8 ms, sinkt die Bildrate auf 15; über
 // 16 ms, oder über 8 ms bei höchstens 4 Kernen, bleibt das Feld beim aktuellen Bild stehen. Fehlt Canvas, matchMedia
 // oder requestAnimationFrame (oder sperrt eine Erweiterung die Leinwand), verzichtet die Seite still darauf.
@@ -751,23 +750,34 @@ function signalfeld() {
   }
   if (!k) return;
   const ruhig = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const RASTER = 16;
+  const RASTER = 22;
   let ABSTAND_MS = 1000 / 30;
   const wenigKerne = (navigator.hardwareConcurrency || 8) <= 4;
   let gemessen = 0;
   let mittel = 0;
   let steht = false;
-  const STUFEN = 12;
-  const DECKUNG = [0.25, 0.55, 1];
+  // Dichte wie in der gewählten Vorschau (26 Bahnen auf 330 x 400 px), höchstens 90 Bahnen.
+  const DICHTE = 26 / (330 * 400);
+  const HOECHSTENS = 90;
+  const SCHWEIF = 14;
+  // Deckung, die im Inhaltsbereich samt 4 px Rand und im Übergang bis 48 px davon bleibt (aussen 1). Impulse und
+  // Endpunkte werden nach dem Zeichnen abgeblendet, die Bahnen kommen danach mit eigener Deckung dazu; zusammen bleibt
+  // der Inhaltsbereich unter einem Fünftel.
+  const IMPULS_ZONE = [0.14, 0.5, 1];
+  const BAHN_ZONE = [0.05, 0.09, 0.12];
   const STANDBILD_MS = 5200;
   let breite = 0;
   let hoehe = 0;
-  let punkte = [];
+  let wege = [];
+  let zonen = [];
   let letzte = -Infinity;
   let zeit = STANDBILD_MS;
   let bild = 0;
   let uhr = 0;
+  const zufall = (a, b) => a + Math.random() * (b - a);
 
+  // Baut die Bahnen neu (beim Start und bei jeder Grössenänderung): Polylinien aus geraden Stücken von 2 bis 6
+  // Rasterschritten, gelegentlich mit 45-Grad-Versatz und Richtungswechsel; je Bahn ein Impuls mit eigener Geschwindigkeit.
   function messe() {
     const dichte = Math.min(2, window.devicePixelRatio || 1);
     breite = document.documentElement.clientWidth;
@@ -775,39 +785,110 @@ function signalfeld() {
     leinwand.width = Math.round(breite * dichte);
     leinwand.height = Math.round(hoehe * dichte);
     k.setTransform(dichte, 0, 0, dichte, 0, 0);
-    // Zone je Punkt: 0 im Inhaltsbereich samt 4 px Rand (kein hellerer Punkt ragt hinein), 1 im Übergang, 2 aussen.
     const r = document.querySelector('.wrap').getBoundingClientRect();
-    punkte = [];
-    for (let y = 8; y < hoehe; y += RASTER) {
-      for (let x = 8; x < breite; x += RASTER) {
-        const abstand = Math.max(r.left - 4 - x, x - r.right - 4, 0);
-        punkte.push(x, y, abstand === 0 ? 0 : abstand < 48 ? 1 : 2);
+    zonen = [[r.left - 4, r.right + 4, 0], [r.left - 48, r.left - 4, 1], [r.right + 4, r.right + 48, 1]];
+    wege = [];
+    const anzahl = Math.min(HOECHSTENS, Math.max(1, Math.round(breite * hoehe * DICHTE)));
+    for (let n = 0; n < anzahl; n++) {
+      let x = Math.round(zufall(0, breite) / RASTER) * RASTER;
+      let y = Math.round(zufall(0, hoehe) / RASTER) * RASTER;
+      const p = [[x, y]];
+      let dx = Math.random() < 0.5 ? 1 : 0;
+      let dy = dx ? 0 : 1;
+      for (let i = 0; i < 9; i++) {
+        const l = Math.round(zufall(2, 6)) * RASTER;
+        x += dx * l;
+        y += dy * l;
+        p.push([x, y]);
+        if (Math.random() < 0.5) {
+          x += RASTER * (Math.random() < 0.5 ? 1 : -1);
+          y += RASTER;
+          p.push([x, y]);
+        }
+        if (Math.random() < 0.4) [dx, dy] = [dy, dx];
       }
+      const stuecke = [];
+      let laenge = 0;
+      for (let i = 1; i < p.length; i++) {
+        const l = Math.hypot(p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]);
+        stuecke.push(l);
+        laenge += l;
+      }
+      // Geschwindigkeit 0.6 bis 1.4 px je Bild bei 30 Bildern je Sekunde, hier je Millisekunde.
+      wege.push({ p, stuecke, laenge, start: zufall(0, laenge), v: zufall(0.6, 1.4) * 0.03, rot: Math.random() < 0.35 });
     }
   }
 
+  // Punkt im Abstand d vom Anfang einer Bahn.
+  function punktAuf(w, d) {
+    for (let i = 0; i < w.stuecke.length; i++) {
+      const l = w.stuecke[i];
+      if (d <= l) {
+        const f = l ? d / l : 0;
+        return [w.p[i][0] + (w.p[i + 1][0] - w.p[i][0]) * f, w.p[i][1] + (w.p[i + 1][1] - w.p[i][1]) * f];
+      }
+      d -= l;
+    }
+    return w.p[w.p.length - 1];
+  }
+
+  // Ein Bild zur Zeit t: Die Lage jedes Impulses folgt allein aus t (gleiche Zeit, gleiches Bild).
   function zeichne(t) {
     k.clearRect(0, 0, breite, hoehe);
-    const pfade = [];
-    for (let i = 0; i < punkte.length; i += 3) {
-      const x = punkte[i];
-      const y = punkte[i + 1];
-      const v = Math.max(0, Math.sin((x * 0.6 + y) / 70 - t / 1600) * Math.sin((x - y * 0.8) / 110 + t / 2300));
-      const stufe = Math.min(STUFEN - 1, Math.floor(v * STUFEN));
-      const s = ((v > 0.82 ? STUFEN : 0) + stufe) * 3 + punkte[i + 2];
-      const p = pfade[s] || (pfade[s] = new Path2D());
-      const radius = 1.2 + ((stufe + 0.5) / STUFEN) * 1.6;
-      p.moveTo(x + radius, y);
-      p.arc(x, y, radius, 0, 2 * Math.PI);
+    const bahnen = new Path2D();
+    const enden = new Path2D();
+    const impulse = [];
+    for (let i = 0; i < 2 * SCHWEIF; i++) impulse.push(new Path2D());
+    for (const w of wege) {
+      w.p.forEach(([x, y], i) => (i ? bahnen.lineTo(x, y) : bahnen.moveTo(x, y)));
+      const e = w.p[w.p.length - 1];
+      enden.moveTo(e[0] + 2.4, e[1]);
+      enden.arc(e[0], e[1], 2.4, 0, 2 * Math.PI);
+      const vorne = (w.start + w.v * t) % w.laenge;
+      for (let i = 0; i < SCHWEIF; i++) {
+        const d = vorne - i * 3;
+        if (d < 0) break;
+        const [x, y] = punktAuf(w, d);
+        const pfad = impulse[(w.rot ? SCHWEIF : 0) + i];
+        pfad.moveTo(x + 1.7, y);
+        pfad.arc(x, y, 1.7, 0, 2 * Math.PI);
+      }
     }
-    pfade.forEach((p, s) => {
-      const v = (Math.floor(s / 3) % STUFEN + 0.5) / STUFEN;
-      const deckung = DECKUNG[s % 3];
-      k.fillStyle = s >= STUFEN * 3
-        ? 'rgba(204, 51, 0, ' + ((0.35 + v * 0.4) * deckung).toFixed(3) + ')'
-        : 'rgba(70, 70, 70, ' + ((0.1 + v * 0.18) * deckung).toFixed(3) + ')';
-      k.fill(p);
+    k.fillStyle = 'rgba(70, 70, 70, 0.25)';
+    k.fill(enden);
+    impulse.forEach((pfad, i) => {
+      const deckung = (0.7 * (1 - (i % SCHWEIF) / SCHWEIF)).toFixed(3);
+      k.fillStyle = i >= SCHWEIF ? 'rgba(204, 51, 0, ' + deckung + ')' : 'rgba(90, 90, 90, ' + deckung + ')';
+      k.fill(pfad);
     });
+    // Impulse und Endpunkte im Inhaltsbereich und im Übergang abblenden (destination-out lässt die Farbe stehen).
+    k.globalCompositeOperation = 'destination-out';
+    for (const [a, b, z] of zonen) {
+      if (b <= a) continue;
+      k.fillStyle = 'rgba(0, 0, 0, ' + (1 - IMPULS_ZONE[z]) + ')';
+      k.fillRect(a, 0, b - a, hoehe);
+    }
+    k.globalCompositeOperation = 'source-over';
+    // Bahnen je Zone mit eigener Deckung; ein Pfad je Strich, Kreuzungen werden nicht dunkler.
+    k.lineWidth = 1.2;
+    k.lineJoin = 'round';
+    const streifen = [[-Infinity, Infinity, 2], ...zonen];
+    for (const [a, b, z] of streifen) {
+      if (b <= a) continue;
+      k.save();
+      k.beginPath();
+      if (z === 2) {
+        k.rect(0, 0, breite, hoehe);
+        for (const [c, d] of zonen) if (d > c) k.rect(c, 0, d - c, hoehe);
+        k.clip('evenodd');
+      } else {
+        k.rect(a, 0, b - a, hoehe);
+        k.clip();
+      }
+      k.strokeStyle = 'rgba(70, 70, 70, ' + BAHN_ZONE[z] + ')';
+      k.stroke(bahnen);
+      k.restore();
+    }
   }
 
   // Bildtakt und Wellen folgen der Zeitleiste der Darstellung (im Betrieb gleich dem Zeitstempel von
