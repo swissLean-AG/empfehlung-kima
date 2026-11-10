@@ -2,7 +2,7 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-pBj7ZKl723pX3FtnDq37AurMe6v8GkJUQLUzIVOYkt8=' https://challenges.cloudflare.com; style-src 'sha256-S4x8Je/kzCm9nKzDCe5IYserQshH5Byag1bvGN+rFZA='; font-src 'self'; img-src 'self' data:; connect-src https://empfehlung-vorposten.stefan-bischof.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5yCHNSwCaWHxbRle2wAY39Ogh0EsJOxFJHcsk7YzIc0=' https://challenges.cloudflare.com; style-src 'sha256-S4x8Je/kzCm9nKzDCe5IYserQshH5Byag1bvGN+rFZA='; font-src 'self'; img-src 'self'; connect-src https://empfehlung-vorposten.stefan-bischof.workers.dev https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="strict-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -255,6 +255,13 @@ button.senden:disabled { background: #8A8F98; cursor: progress; }
         <fieldset id="fs-start">
           <legend><span class="nr">2</span>Gewünschter Start *</legend>
           <div class="optionen zwei" id="optionen-start"></div>
+          <div class="felder unterblock" id="block-wunschstart-text" hidden>
+            <div class="feld voll">
+              <label for="wunschstart_text">Gewünschter Startmonat *</label>
+              <input type="text" id="wunschstart_text" name="wunschstart_text" maxlength="60" autocomplete="off" aria-describedby="wunschstart-hinweis">
+              <span class="hinweis" id="wunschstart-hinweis">Zum Beispiel April 2027, Frühling 2027, Q2/2027, ab sofort oder ab 15.03.2027. Erlaubt sind Monat, Jahreszeit, Quartal, Kalenderwoche, Jahr und Datum, mehrere auch mit Komma getrennt. Wir stimmen den Start mit dir ab.</span>
+            </div>
+          </div>
         </fieldset>
 
         <fieldset id="fs-kontakt">
@@ -314,12 +321,136 @@ const EMPFEHLUNGSGEBER_ANZEIGE = {
   kleist: 'Mike Kleist',
   tschenett: 'Mirko Tschenett',
 };
-const STARTOPTIONEN = [
-  { wert: 'naechste', label: 'Nächste Gruppe' },
-  { wert: '2026-11', label: 'November 2026' },
-  { wert: '2026-12', label: 'Dezember 2026' },
-];
-const MAX_LAENGE = { freitext: 1000, feld: 200 };
+// Startmonate: dieselbe Regel wie auf dem Server (laufender Zürcher Monat und die zwei folgenden, dazu der eigene Wunsch).
+function startOptionen(jetzt) {
+  const monate = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const teile = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich', year: 'numeric', month: 'numeric' }).formatToParts(jetzt);
+  const jahr = Number(teile.find((t) => t.type === 'year').value);
+  const monat = Number(teile.find((t) => t.type === 'month').value);
+  const optionen = [];
+  for (let i = 0; i < 3; i++) {
+    const n = monat - 1 + i;
+    const j = jahr + Math.floor(n / 12);
+    optionen.push({ wert: j + '-' + String((n % 12) + 1).padStart(2, '0'), label: monate[n % 12] + ' ' + j });
+  }
+  optionen.push({ wert: 'eigener', label: 'Anderen Startmonat wählen' });
+  return optionen;
+}
+// Eigener Startwunsch: dieselbe Regel wie auf dem Server (nur erlaubte Bausteine: Monat, Jahreszeit, Quartal, Halbjahr,
+// Kalenderwoche, Jahr, Datum und wenige Füllwörter).
+function wunschstartTextGueltig(text, jetzt) {
+  if (typeof text !== 'string') return false;
+  const zeitpunkt = jetzt && typeof jetzt.getTime === 'function' && !Number.isNaN(jetzt.getTime()) ? jetzt : new Date();
+  const obenJahr = Number(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich', year: 'numeric' }).format(zeitpunkt)) + 9;
+  const t = text.normalize('NFC').normalize('NFKC').trim().toLowerCase();
+  if (t === '' || !/^[\p{L}0-9 .,/-]+$/u.test(t)) return false;
+  const monatNr = { januar: 1, februar: 2, 'märz': 3, maerz: 3, april: 4, mai: 5, juni: 6, juli: 7, august: 8, september: 9, oktober: 10,
+    november: 11, dezember: 12, jan: 1, feb: 2, 'mär': 3, maer: 3, mrz: 3, apr: 4, jun: 6, jul: 7, aug: 8, sep: 9, sept: 9, okt: 10, nov: 11, dez: 12 };
+  const abkuerzungen = ['jan', 'feb', 'mär', 'maer', 'mrz', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'okt', 'nov', 'dez'];
+  const jahreszeiten = ['frühling', 'fruehling', 'frühjahr', 'fruehjahr', 'sommer', 'herbst', 'winter'];
+  const zeiten = ['q1', 'q2', 'q3', 'q4', 'h1', 'h2', 'sofort'];
+  const fuellwoerter = ['ab', 'bis', 'nach', 'vor', 'anfang', 'anfangs', 'mitte', 'ende', 'oder', 'und', 'im', 'in', 'frühestens', 'fruehestens',
+    'spätestens', 'spaetestens', 'später', 'spaeter', 'ca', 'etwa'];
+  const zwischen = (s, min, max) => Number(s) >= min && Number(s) <= max;
+  const jahr = (s) => (s.length === 4 ? zwischen(s, 2026, obenJahr) : zwischen(s, 26, obenJahr - 2000));
+  const volljahr = (s) => (s.length === 4 ? Number(s) : 2000 + Number(s));
+  const schalt = (j) => j % 4 === 0 && (j % 100 !== 0 || j % 400 === 0);
+  const tage = (m, j) => [31, j === null || schalt(j) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+  // Bausteine in dieser Reihenfolge: T.M.(JJ|JJJJ), M.JJJJ oder M/JJJJ, M/JJ, "T." vor Leerzeichen und Wort, KW mit
+  // Zahl, Wort oder Zahl, Trenner. Ein Datum darf nicht direkt an Buchstaben oder Ziffern stossen.
+  const baustein = /(\d{1,2})\.(\d{1,2})\.(\d{4}|\d{2})?(?![\p{L}0-9])|(\d{1,2})[./](\d{4})(?![\p{L}0-9])|(\d{1,2})\/(\d{2})(?![\p{L}0-9])|(\d{1,2})\.(?= \p{L})|kw ?(\d{1,2})(?![\p{L}0-9])|([\p{L}0-9]+)|[ .,/-]/uy;
+  let zeit = false;
+  let vorher = null;
+  let komma = false;
+  let tagWartet = null;
+  let datum = null;
+  let punkt = false;
+  for (let i = 0; i < t.length; i = baustein.lastIndex) {
+    baustein.lastIndex = i;
+    const m = baustein.exec(t);
+    if (m === null) return false;
+    const w = m[10];
+    if (m[0].length === 1 && ' .,/-'.includes(m[0])) {
+      if (m[0] === ',') komma = true;
+      const schluss = i === t.length - 1 && vorher !== null;
+      if (m[0] === '.' && punkt) return false;
+      if (m[0] === '.' && !schluss && (!['zahl', 'abk', 'ca'].includes(vorher) || /\p{L}/u.test(t.charAt(i + 1)))) return false;
+      if (m[0] === '.' && vorher === 'zahl' && /[0-9]/.test(t.charAt(i + 1))) return false;
+      if (m[0] === '.') punkt = true;
+      continue;
+    }
+    punkt = false;
+    const offen = datum;
+    datum = null;
+    if (tagWartet !== null) {
+      const tag = tagWartet;
+      tagWartet = null;
+      if (w === 'quartal' && tag <= 4) {
+        vorher = 'wort';
+      } else {
+        if (w === undefined || !Object.prototype.hasOwnProperty.call(monatNr, w) || tag > tage(monatNr[w], null)) return false;
+        datum = { tag, monat: monatNr[w] };
+        vorher = abkuerzungen.includes(w) ? 'abk' : 'monat';
+      }
+    } else if (m[1] !== undefined) {
+      if (!zwischen(m[2], 1, 12) || (m[3] !== undefined && !jahr(m[3]))) return false;
+      if (!zwischen(m[1], 1, tage(Number(m[2]), m[3] === undefined ? null : volljahr(m[3])))) return false;
+      if (m[3] === undefined) datum = { tag: Number(m[1]), monat: Number(m[2]) };
+      vorher = 'zahl';
+    } else if (m[4] !== undefined) {
+      if (!zwischen(m[4], 1, 12) || !jahr(m[5])) return false;
+      vorher = 'zahl';
+    } else if (m[6] !== undefined) {
+      if (!zwischen(m[6], 1, 12) || !jahr(m[7])) return false;
+      vorher = 'zahl';
+    } else if (m[8] !== undefined) {
+      if (!zwischen(m[8], 1, 31)) return false;
+      tagWartet = Number(m[8]);
+      vorher = 'zahl';
+      continue;
+    } else if (m[9] !== undefined) {
+      if (!zwischen(m[9], 1, 53)) return false;
+      vorher = 'zahl';
+    } else if (Object.prototype.hasOwnProperty.call(monatNr, w)) {
+      vorher = abkuerzungen.includes(w) ? 'abk' : 'monat';
+    } else if (jahreszeiten.includes(w)) {
+      vorher = 'saison';
+    } else if (zeiten.includes(w)) {
+      vorher = w[0] === 'q' ? 'q' : 'wort';
+    } else if (/^\d{4}$/.test(w) && jahr(w)) {
+      if (offen && offen.tag > tage(offen.monat, Number(w))) return false;
+      vorher = 'zahl';
+    } else if (/^\d{2}$/.test(w) && jahr(w) && !komma && ['monat', 'abk', 'saison', 'q'].includes(vorher)) {
+      if (offen && offen.tag > tage(offen.monat, volljahr(w))) return false;
+      vorher = 'zahl';
+    } else if (fuellwoerter.includes(w)) {
+      vorher = w === 'ca' ? 'ca' : 'wort';
+      komma = false;
+      datum = offen;
+      continue;
+    } else {
+      return false;
+    }
+    zeit = true;
+    komma = false;
+  }
+  return zeit && tagWartet === null;
+}
+// Wohlgeformte Zeichenkette: dieselbe Regel wie auf dem Server (kein halbes Zeichen, das eine Gegenstelle ablehnen könnte).
+function zeichenketteWohlgeformt(text) {
+  if (typeof text !== 'string') return false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text.charCodeAt(i);
+    if (c >= 0xdc00 && c <= 0xdfff) return false;
+    if (c >= 0xd800 && c <= 0xdbff) {
+      const d = text.charCodeAt(i + 1);
+      if (!(d >= 0xdc00 && d <= 0xdfff)) return false;
+      i++;
+    }
+  }
+  return true;
+}
+const MAX_LAENGE = { freitext: 1000, feld: 200, wunschstart: 60 };
 // @@daten-ende
 
 const $ = (id) => document.getElementById(id);
@@ -380,9 +511,9 @@ function start() {
   $('erklaerung').hidden = false;
   formular.hidden = false;
 
-  // Startoptionen aus der festen Liste
+  // Startoptionen nach der Regel oben, mit dem heutigen Datum des Browsers (Zürcher Kalendermonat)
   const startBox = $('optionen-start');
-  STARTOPTIONEN.forEach((o, i) => {
+  startOptionen(new Date()).forEach((o, i) => {
     const wrap = document.createElement('div');
     wrap.className = 'option';
     const input = document.createElement('input');
@@ -417,6 +548,7 @@ function start() {
     const art = gewaehlt('buchungsart');
     $('block-plaetze-team').hidden = !(kurs && art === 'team');
     $('block-plaetze-gruppe').hidden = !(kurs && art === 'gruppe');
+    $('block-wunschstart-text').hidden = gewaehlt('wunschstart') !== 'eigener';
     if (weg !== '') zeigeTurnstile();
   }
   formular.addEventListener('change', aktualisiere);
@@ -464,7 +596,7 @@ function start() {
     const erstes = [];
     const melde = (name, el, ziel) => { fehlt.push(name); markiere(ziel || el, true); erstes.push(el); };
     ['fs-anliegen', 'fs-start', 'block-buchungsart'].forEach((id) => markiere($(id), false));
-    ['plaetze-team', 'plaetze-gruppe', 'k_name', 'k_firma', 'k_mail', 'k_ort'].forEach((id) => markiere($(id), false));
+    ['plaetze-team', 'plaetze-gruppe', 'wunschstart_text', 'k_name', 'k_firma', 'k_mail', 'k_tel', 'k_ort', 'notiz'].forEach((id) => markiere($(id), false));
 
     const anliegen = gewaehlt('anliegen');
     if (!anliegen) melde('Anliegen', $('anliegen-info'), $('fs-anliegen'));
@@ -484,11 +616,19 @@ function start() {
     }
     const start = gewaehlt('wunschstart');
     if (!start) melde('Gewünschter Start', $('start-0'), $('fs-start'));
+    else if (start === 'eigener' && !feld('wunschstart_text')) melde('Gewünschter Startmonat', $('wunschstart_text'));
+    else if (start === 'eigener' && !wunschstartTextGueltig(feld('wunschstart_text'))) melde('Gewünschter Startmonat (zum Beispiel April 2027 oder Q2/2027)', $('wunschstart_text'));
     if (!feld('k_name')) melde('Name', $('k_name'));
     if (!feld('k_firma')) melde('Firma', $('k_firma'));
     if (!MAIL_FORMAT.test(feld('k_mail').toLowerCase())) melde('E-Mail (gültige Adresse)', $('k_mail'));
     if (!feld('k_ort')) melde('Ort der Firma', $('k_ort'));
     if (!$('einv-' + weg).checked) melde('Einverständnis', $('einv-' + weg));
+    // Halbe Zeichen (einzelne Surrogate) weist der Server ab; die Seite meldet sie vor dem Senden, je Feld einmal.
+    const textfelder = [['k_name', 'Name'], ['k_firma', 'Firma'], ['k_mail', 'E-Mail'], ['k_tel', 'Telefon'], ['k_ort', 'Ort der Firma'], ['notiz', 'Was sollten wir wissen?']];
+    if (start === 'eigener') textfelder.unshift(['wunschstart_text', 'Gewünschter Startmonat']);
+    textfelder.forEach(([id, name]) => {
+      if (!zeichenketteWohlgeformt($(id).value) && !erstes.includes($(id))) melde(name + ' (ungültiges Zeichen)', $(id));
+    });
     return { fehlt, erstes, anliegen, buchungsart, plaetze, start };
   }
 
@@ -533,6 +673,7 @@ function start() {
       buchungsart: p.anliegen === 'kurs' ? p.buchungsart : null,
       plaetze: p.anliegen === 'kurs' ? p.plaetze : 1,
       wunschstart: p.start,
+      wunschstart_text: p.start === 'eigener' ? feld('wunschstart_text') : '',
       kontakt: { name: feld('k_name'), firma: feld('k_firma'), mail: feld('k_mail'), tel: feld('k_tel'), ort: feld('k_ort') },
       notiz: bereinigt($('notiz').value, STEUERZEICHEN_FREITEXT),
       empfehlungsgeber: null,
@@ -553,7 +694,7 @@ function start() {
         referrerPolicy: 'strict-origin',
         signal: abbruch.signal,
       });
-      // Danke nur bei Status 200 und JSON mit ok genau true (B-067), sonst die neutrale Meldung.
+      // Danke nur bei Status 200 und JSON mit ok genau true, sonst die neutrale Meldung.
       if (antwort.status === 200) {
         const daten = await antwort.json().catch(() => null);
         erfolg = daten !== null && typeof daten === 'object' && daten.ok === true;
